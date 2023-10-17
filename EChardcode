@@ -1,0 +1,57 @@
+;Programa harcode 'completar com o nome'
+;Introdução Assembly
+;Author: Maria Julia, FEAP
+;version: Maria Julia, curso Engenharia da Computação 
+SYS_EXIT      equ 1 ;informa uma interrupção de entrada/saída
+SYS_READ      equ 3 
+SYS_WRITE     equ 4
+STDIN         equ 0
+STDOUT        equ 1
+STDOPE        equ 2
+
+section .data
+    msg1 db 'Soma é: ', 0xa, 0xd  ;Informa o 1º numero
+    len1    equ $ -msg1
+    
+
+    
+section .bss
+    res  resb 1         ;armazena o valor do resultado 
+    
+section .text
+    global _start
+    
+_start: 
+    mov eax, 3
+    mov ebx, 4
+
+;soma dos dois
+    add eax, ebx
+
+;converte o resultado em ASCII
+    add eax, '0'
+
+;armazena o resultado na val res
+    mov [res], eax
+    
+;segura o primeiro valor
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg1
+    mov edx, len1
+    int 0x80
+
+;segura o segundo valor 
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, res
+    mov edx, 2
+    
+; termina o programa
+    mov eax, 1 
+    xor ebx, ebx
+    int 0x80
+    
+
+    
+
