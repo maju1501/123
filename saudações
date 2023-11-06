@@ -1,0 +1,56 @@
+;Author: Maria Julia da Costa Teixeira
+;Faculdade de administração e engenharia paulista, Engenharia da computação 
+;06/11/2023
+
+SYS_EXIT      equ 1 ;informa uma interrupção de entrada/saída
+SYS_READ      equ 3 
+SYS_WRITE     equ 4
+STDIN         equ 0
+STDOUT        equ 1
+
+section .data           ;seção de dados iniciada
+    nome db 'Digite seu nome: ',0
+    lennome equ $ -nome
+   
+    saudacao db 'olá, ',0
+    lensau equ $ -saudacao
+   
+    letra db 8 dup(0)
+    lenletra equ $ -letra
+
+
+    
+section .text
+    global _start
+
+_start:
+                        ; imprime 
+    mov     eax, SYS_WRITE
+    mov     ebx, STDOUT
+    mov     ecx, nome
+    mov     edx, lennome
+    int 0x80 
+    
+                        ; lê o nome
+    mov     eax, SYS_READ
+    mov     ebx, STDIN
+    mov     ecx, letra
+    mov     edx, 8
+    int 0x80
+    
+                        ;imprime a saudação
+    mov eax, SYS_WRITE
+    mov ebx, STDOUT
+    mov ecx, saudacao
+    mov edx, lensau
+    int 0x80
+                        ;imprime o nome inserido
+    mov eax, SYS_WRITE
+    mov ebx, STDOUT
+    mov ecx, letra
+    mov edx, lenletra
+    int 0x80
+    
+    mov eax, SYS_EXIT
+    int 0x80
+
